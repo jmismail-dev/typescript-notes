@@ -9,7 +9,7 @@ import { getTimeStamp } from '../lib/mysql';
 
 export const getNotes = (req: Request, res: Response) => {
     connection.connect(() => {
-        const QUERY = 'SELECT * FROM notes'
+        const QUERY = 'SELECT * FROM notes ORDER BY createdOn DESC'
         connection.query(QUERY, (error, results) => {
             if (error) throw error;
             if (results.length > 0) {
@@ -37,7 +37,7 @@ export const getNote = (req: Request, res: Response) => {
     })
 }
 
-export const createNote = (req: Request, res: Response): Response => {
+export const createNote = (req: Request, res: Response) => {
     const { title, body } = req.body;
 
     connection.connect(() => {
@@ -56,11 +56,12 @@ export const createNote = (req: Request, res: Response): Response => {
             connection.query(HISTORY, [title, body, createdOn, updatedOn, noteId], function (note_error, notes_history) {
                 if (note_error) throw note_error;
                 console.log('The solution is: ', notes_history.insertId);
+                return res.status(200).send({ message: "Note Created", status: "OK" })
             });
         });
 
     })
-    return res.status(200).send({ message: "Note Created" })
+
 }
 
 export const updateNote = (req: Request, res: Response) => {
@@ -100,7 +101,7 @@ export const updateNote = (req: Request, res: Response) => {
                     connection.query(HISTORY, [title, body, createdOn, updatedOn, noteId], function (note_error, notes_history) {
                         if (note_error) throw note_error;
                         console.log('Notes Updated: ', notes_history.insertId);
-                        return res.status(200).send({ message: "Note Updated" })
+                        return res.status(200).send({ message: "Note Updated", status: "OK" })
                     });
                 });
             }

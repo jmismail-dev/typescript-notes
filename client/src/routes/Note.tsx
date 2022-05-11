@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import moment from 'moment';
 
 // Store
-import { AppDispatch, RootState } from '../store'
+import { AppDispatch, RootState } from '../store';
+
+// UI
+import "./Note.scss"
 
 type Props = {}
 
@@ -28,13 +33,17 @@ export default function Note({ }: Props) {
         });
     }, [noteId]);
 
-
     return !isError ? (
-        <div>
+        <Container className='my-4'>
             <h2>{title}</h2>
             <p className="lead">{moment(createdOn).format('DD-MM-YYYY HH:mm')}</p>
-            <p>{body}</p>
-        </div>
+            <div className='content'>
+                <ReactMarkdown
+                    children={body}
+                    remarkPlugins={[remarkGfm]}
+                />
+            </div>
+        </Container>
     ) : (
         <>
             {errorMessage}

@@ -9,6 +9,8 @@ import {
 //  Pages
 import Notes from './routes/Notes';
 import Note from './routes/Note';
+import AddNote from './routes/AddNote';
+import EditNote from './routes/EditNote';
 
 // Store
 import store from './store';
@@ -22,7 +24,9 @@ const App = (props: Props) => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Notes />} />
+          <Route path='/edit/:noteId' element={<EditNote />} />
           <Route path='/:noteId' element={<Note />} />
+          <Route path='/create' element={<AddNote />} />
         </Routes>
       </BrowserRouter>
     </Provider>
