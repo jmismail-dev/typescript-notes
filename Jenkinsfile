@@ -13,10 +13,10 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                   npm install
+                   npm ci
                    npm run build
                    cd client/
-                   npm install
+                   npm ci --force
                    npm run build
                 '''
             }
