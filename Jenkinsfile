@@ -29,8 +29,7 @@ pipeline {
                 // sh "sudo cp -r ${WORKSPACE}/ /home/jmismail/" // Copy all
                 sh "cd ${WORKSPACE}/ && ls"
                 // sh 'sudo cp -r !(client) /home/jmismail/'
-                // sh "sudo rsync -av --progress --exclude='client' ${WORKSPACE}/ /home/jmismail/ts-notes-app"
-                sh "cp -r -nf ${WORKSPACE}/build /home/jmismail/ts-notes-app/build"
+                sh "sudo rsync -av --progress --exclude='client' ${WORKSPACE}/ /home/jmismail/ts-notes-app"
             }
         }
     }
