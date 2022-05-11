@@ -18,6 +18,7 @@ pipeline {
                    cd client/
                    npm install --force
                    npm run build
+                   ls 
                 '''
             }
         }
