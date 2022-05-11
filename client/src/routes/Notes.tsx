@@ -35,18 +35,34 @@ export default function Notes({ }: Props) {
         navigate(`/create`)
     }
 
+
+    const deleteSuccess = () => {
+        console.log('Note Removed Success')
+    }
+
+    const deleteNote = (id: number): void => {
+        dispatch({
+            type: 'DELETE_NOTE_INIT',
+            payload: id,
+            success: deleteSuccess
+        })
+    }
+
     return (
         <Container className='my-4'>
-            {/* <h2 className="text-primary">All </h2> */}
-            <Button onClick={redirectCreate}> Add </Button>
+            <div className="d-flex justify-content-between align-items-center">
+                <h2 className="text-primary"><small>Notes</small> </h2>
+                <Button onClick={redirectCreate} variant='success'> Create </Button>
+            </div>
             {notes?.map((note: any, index: number) => (
                 <Card key={index} className='my-1'>
-                    <Card.Body  onClick={() => handleRedirect(note.id)} style={{ cursor: 'pointer' }}>
+                    <Card.Body onClick={() => handleRedirect(note.id)} style={{ cursor: 'pointer' }}>
                         <Card.Title>{note.title}</Card.Title>
                         <p>{note.body.substr(0, 100)}{note.body.length > 100 ? "..." : ""}</p>
                     </Card.Body>
                     <Card.Footer>
                         <Button onClick={() => editRedirect(note.id)}> Edit </Button>
+                        <Button onClick={() => deleteNote(note.id)} variant='danger' className='mx-1'> Delete </Button>
                     </Card.Footer>
                 </Card>
             ))}

@@ -147,10 +147,10 @@ export const getHistoryForNotes = (req: Request, res: Response) => {
         connection.query(QUERY, [noteId], (error, results) => {
             if (error) throw error;
             if (results.length > 0) {
-                return res.status(400).send({ message: "History Fetched", history: results })
+                return res.status(200).send({ message: "History Fetched", status: "OK", results: results })
             }
             else {
-                return res.status(400).send({ message: "History Fetched", history: [] })
+                return res.status(200).send({ message: "History Fetched", status: "OK", results: [] })
             }
         })
     })
@@ -174,14 +174,14 @@ export const deleteNote = (req: Request, res: Response) => {
                         const DELETE_HISTORY = 'DELETE FROM notes_history WHERE noteId=?';
                         connection.query(DELETE_HISTORY, [noteId], (delete_h_error, delete_h_info) => {
                             if (delete_h_error) throw delete_h_error;
-                            return res.status(200).send({ message: "Note Removed" })
+                            return res.status(200).send({ message: "Note Removed", status: "OK" })
                         });
 
                     }
                 });
             }
             else {
-                return res.status(400).send({ message: "Note not found" })
+                return res.status(200).send({ message: "Not not found", status: "FAILED" })
             }
         })
     })

@@ -9,14 +9,13 @@ export type Note = {
 }
 
 const initValue = {
-    notes: [] as Note | unknown,
+    notes: [] as Note[],
     isLoading: false as Boolean,
     error: '',
     isError: false,
-    note: ''
+    note: '',
+    history : []
 }
-
-
 
 
 export default function (state = initValue, action: any) {
@@ -26,6 +25,7 @@ export default function (state = initValue, action: any) {
             return {
                 ...state,
                 isLoading: true,
+                history : []
             }
 
         case 'FETCH_USER_NOTES_SUCCESS':
@@ -42,6 +42,7 @@ export default function (state = initValue, action: any) {
                 isLoading: false,
                 note: payload,
                 isError: false,
+                // history : []
             }
 
         case 'FETCH_USER_NOTES_FAILURE':
@@ -51,6 +52,19 @@ export default function (state = initValue, action: any) {
                 error: payload,
                 isError: true,
                 isLoading: false,
+            }
+
+
+        case 'DELETE_NOTE_SUCCESS':
+            return {
+                ...state,
+                notes: [...state.notes.filter(o => o.id !== payload)]
+            }
+
+        case 'GET_NOTE_HISTORY_SUCCESS':
+            return {
+                ...state,
+                history: payload,
             }
 
         default: return state;
