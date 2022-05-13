@@ -18,6 +18,8 @@ import store from './store';
 type Props = {}
 
 const App = (props: Props) => {
+  
+  console.log(import.meta.env)
 
   return (
     <Provider store={store}>

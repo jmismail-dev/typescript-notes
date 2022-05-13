@@ -1,6 +1,6 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
+    agent 'Fedora'
     tools { nodejs 'NodeJs' }
     stages {
         stage('Test Npm') {
