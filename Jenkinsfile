@@ -1,13 +1,19 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent { label 'Fedora' }
+    agent any
     tools { nodejs 'NodeJs' }
     stages {
         stage('Test Npm') {
-            steps {
-                sh '''
-                    npm --version
-                '''
+            agent { label 'Fedora' }
+            stages {
+                stage {
+                    /* groovylint-disable-next-line NestedBlockDepth */
+                    steps {
+                        sh '''
+                        npm --version
+                        '''
+                    }
+                }
             }
         }
         stage('Build') {
