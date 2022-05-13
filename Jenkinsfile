@@ -5,18 +5,15 @@ pipeline {
     stages {
         stage('Test Npm') {
             agent { label 'Fedora' }
-            stages {
-                stage {
-                    /* groovylint-disable-next-line NestedBlockDepth */
-                    steps {
-                        sh '''
-                        npm --version
-                        '''
-                    }
-                }
+            steps {
+                sh '''
+                    npm --version
+                '''
             }
         }
         stage('Build') {
+            /* groovylint-disable-next-line DuplicateStringLiteral */
+            agent { label 'Fedora' }
             steps {
                 sh '''
                    npm install
