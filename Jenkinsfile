@@ -44,7 +44,7 @@ pipeline {
                 sh "sudo rsync -avr -e 'ssh -l jmismail' --exclude='client' . jmismail@192.168.2.126:/home/jmismail/ts-notes-app"
                 sh "cd ${WORKSPACE}/client/dist"
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo rsync -avr -e 'ssh -l jmismail' .jmismail@192.168.2.126:/var/www/ts-notes-app"
+                sh "sudo rsync -avr -e 'ssh -l jmismail' . jmismail@192.168.2.126:/var/www/ts-notes-app"
             }
         }
     }
