@@ -31,9 +31,9 @@ pipeline {
                 // sh 'ssh jmismail@192.168.2.126 "mkdir /var/www/ts-notes-app"'
                 /* groovylint-disable-next-line LineLength */
                 // sh "sudo rsync -avr -e 'ssh -l jmismail' . jmismail@192.168.2.126:/var/www/ts-notes-app/"
-                sh "cd ${WORKSPACE}/client/dist/"
+                // sh "cd ${WORKSPACE}/client/dist/"
                 /* groovylint-disable-next-line LineLength */
-                sh "sudo rsync -avz --stats --rsync-path='echo toor | sudo -Sv && sudo rsync' . jmismail@192.168.2.126:/var/www/ts-notes-app/"
+                sh "sudo rsync -avz --stats --rsync-path='echo toor | sudo -Sv && sudo rsync' ${WORKSPACE}/client/dist/ jmismail@192.168.2.126:/var/www/ts-notes-app/"
             }
         }
     }
