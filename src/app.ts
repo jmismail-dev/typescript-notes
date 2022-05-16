@@ -10,7 +10,6 @@ const port = 7650
 app.use(express.json());
 app.use(cors())
 app.use('/api', routes);
-console.log('Registering a change!')
 
 app.listen(port, () => {
     console.log(`App running on ${port}`)
