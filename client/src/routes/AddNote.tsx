@@ -84,6 +84,7 @@ const AddNote = (props: Props) => {
                 <MdEditor style={{ height: '500px' }}
                     allowPasteImage
                     value={getValue.text}
+                    view={{ menu: true, md: false, html: true }}
                     renderHTML={text => (
                         <ReactMarkdown
                             children={text}
