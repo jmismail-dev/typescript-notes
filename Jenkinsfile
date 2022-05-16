@@ -21,15 +21,28 @@ pipeline {
                 '''
             }
         }
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'sudo rm -rf /var/www/ts-notes-app'
+        //         sh "cd ${WORKSPACE} && ls"
+        //         sh "sudo cp -r ${WORKSPACE}/client/dist/ /var/www/ts-notes-app"
+        //         // sh "sudo cp -r ${WORKSPACE}/ /home/jmismail/" // Copy all
+        //         sh "cd ${WORKSPACE}/ && ls"
+        //         // sh 'sudo cp -r !(client) /home/jmismail/'
+        //         sh "sudo rsync -av --progress --exclude='client' ${WORKSPACE}/ /home/jmismail/ts-notes-app"
+        //     }
+        // }
         stage('Deploy') {
             steps {
                 sh 'sudo rm -rf /var/www/ts-notes-app'
                 sh "cd ${WORKSPACE} && ls"
                 sh "sudo cp -r ${WORKSPACE}/client/dist/ /var/www/ts-notes-app"
-                // sh "sudo cp -r ${WORKSPACE}/ /home/jmismail/" // Copy all
-                sh "cd ${WORKSPACE}/ && ls"
-                // sh 'sudo cp -r !(client) /home/jmismail/'
-                sh "sudo rsync -av --progress --exclude='client' ${WORKSPACE}/ /home/jmismail/ts-notes-app"
+                  /* groovylint-disable-next-line LineLength */
+                sh "sudo scp -r  ${WORKSPACE}/client/dist/ jmismail@192.168.2.126:/home/jmismail/server"
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo rsync -avr -e 'ssh -l user' --exclude='client' ${WORKSPACE}/ jmismail@192.168.2.126:/home/jmismail"
+                /* groovylint-disable-next-line LineLength */
+                sh "sudo rsync -avr -e 'ssh -l user' ${WORKSPACE}/client/dist jmismail@192.168.2.126:/var/www/ts-notes-app"
             }
         }
     }
