@@ -4,7 +4,6 @@ pipeline {
     tools { nodejs 'NodeJs' }
     stages {
         stage('Test Npm') {
-            agent any
             steps {
                 sh '''
                     npm --version
@@ -12,7 +11,6 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
             steps {
                 sh '''
                    npm install
@@ -24,7 +22,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-            agent { label 'Fedora' }
             steps {
                 sh 'sudo rm -rf /var/www/ts-notes-app'
                 sh "cd ${WORKSPACE} && ls"

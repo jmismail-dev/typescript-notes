@@ -47,21 +47,6 @@ export default function Note({ }: Props) {
         setInProp(!setInProp)
     }
 
-    const duration = 300;
-
-
-    const defaultStyle = {
-        transition: `opacity ${duration}ms ease-in-out`,
-        opacity: 0,
-    }
-
-    const transitionStyles = {
-        entering: { opacity: 1 },
-        entered: { opacity: 1 },
-        exiting: { opacity: 0 },
-        exited: { opacity: 0 },
-    };
-
 
     return !isError ? (
         <Container className='my-4'>
@@ -82,14 +67,11 @@ export default function Note({ }: Props) {
 
                 {show && (
                     <Col>
-                        <Transition in={inProp} timeout={duration}>
-                            <ListGroup>
-                                {history.map((history: any, index: number) => (
-                                    <ListGroupItem key={index}>{history.id}</ListGroupItem>
-                                ))}
-                            </ListGroup>
-                        </Transition>
-
+                        <ListGroup>
+                            {history.map((history: any, index: number) => (
+                                <ListGroupItem key={index}>{history.id}</ListGroupItem>
+                            ))}
+                        </ListGroup>
                     </Col>
                 )}
             </Row>
