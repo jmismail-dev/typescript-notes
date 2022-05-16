@@ -3,7 +3,7 @@ pipeline {
     agent any
     tools { nodejs 'NodeJs' }
     stages {
-        stage('Test Npm') {
+        stage('Check') {
             steps {
                 sh '''
                     npm --version
