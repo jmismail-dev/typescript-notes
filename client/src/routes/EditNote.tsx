@@ -8,6 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 // Types
 import { AppDispatch, RootState } from '../store';
+
+// Components
+import Layout from "../includes/Layout"
+
 // UI
 import 'react-markdown-editor-lite/lib/index.css';
 
@@ -22,6 +26,7 @@ type Value = {
 const EditNote = (props: Props) => {
 
     const [value, setValue] = useState<Value | undefined>();
+    const [preview, setPreview] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('');
 
     const [error, setError] = useState<string>('')
@@ -61,7 +66,7 @@ const EditNote = (props: Props) => {
     useEffect(() => {
         if (data) {
             setTitle(data.title);
-            setValue({ text: data.body})
+            setValue({ text: data.body })
         }
     }, [data]);
 
@@ -79,7 +84,7 @@ const EditNote = (props: Props) => {
                 payload: {
                     title,
                     body: getValue.text,
-                    id : noteId
+                    id: noteId
                 },
                 success: successClbk
             })
@@ -95,41 +100,63 @@ const EditNote = (props: Props) => {
     }
 
 
+    const togglePreview = (): void => {
+        setPreview(!preview)
+    }
+
+
     return (
-        <Container className='my-4'>
+        <Layout>
+
             {error && (
                 <Alert variant='danger'>
                     {error}
                 </Alert>
             )}
 
-            <Form.Group>
+            {!preview ? (
+                <div>
+                    <Form.Group>
 
-                <Form.Control
-                    type='text'
-                    placeholder='Enter Title'
-                    onChange={handleTitleChange}
-                    value={title}
-                />
-            </Form.Group>
-
-            <div className="my-1">
-                <MdEditor style={{ height: '500px' }}
-                    allowPasteImage
-                    value={getValue && getValue.text}
-                    renderHTML={text => (
-                        <ReactMarkdown
-                            children={text}
-                            rehypePlugins={[
-                                rehypeSanitize
-                            ]}
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter Title'
+                            onChange={handleTitleChange}
+                            value={title}
                         />
-                    )}
-                    onChange={handleChange} />
-            </div>
+                    </Form.Group>
 
+                    <div className="my-1">
+                        <MdEditor style={{ height: '500px' }}
+                            allowPasteImage
+                            value={getValue && getValue.text}
+                            view={{ menu: true, md: true, html: false }}
+                            renderHTML={text => (
+                                <ReactMarkdown
+                                    children={text}
+                                    rehypePlugins={[
+                                        rehypeSanitize
+                                    ]}
+                                />
+                            )}
+                            onChange={handleChange} />
+                    </div>
+                </div>
+            ) : (
+                <div>
+                    <h2>{title}</h2>
+                    <ReactMarkdown
+                        children={getValue.text}
+                        rehypePlugins={[
+                            rehypeSanitize
+                        ]}
+                    />
+                </div>
+            )}
+
+            <Button onClick={() => togglePreview()} className='my-4 mx-2' variant='light'> {preview ? 'Editor' : 'Preview'}  </Button>
             <Button onClick={() => handleSubmit()} className='my-4'> Update </Button>
-        </Container>
+        </Layout>
     )
 }
 

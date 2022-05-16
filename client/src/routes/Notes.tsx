@@ -3,9 +3,10 @@ import { Card, Container, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom'
-
 // Types
 import { AppDispatch, RootState } from '../store'
+
+import Layout from '../includes/Layout'
 
 type Props = {}
 
@@ -49,9 +50,10 @@ export default function Notes({ }: Props) {
     }
 
     return (
-        <Container className='my-4'>
-            <div className="d-flex justify-content-between align-items-center">
-                <h2 className="text-primary"><small>Notes</small> </h2>
+        <Layout>
+            <div className="d-flex justify-content-between align-items-center my-4">
+                {/* <h2 className="text-primary"><small>Notes</small> </h2> */}
+                <div>&nbsp;</div>
                 <Button onClick={redirectCreate} variant='success'> Create </Button>
             </div>
             {notes?.map((note: any, index: number) => (
@@ -66,6 +68,6 @@ export default function Notes({ }: Props) {
                     </Card.Footer>
                 </Card>
             ))}
-        </Container>
+        </Layout>
     )
 }

@@ -4,7 +4,10 @@ import rehypeSanitize from "rehype-sanitize";
 import MdEditor from 'react-markdown-editor-lite';
 import ReactMarkdown from 'react-markdown';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
+// Components
+import Layout from "../includes/Layout"
 
 // Types
 import { AppDispatch, RootState } from '../store';
@@ -18,6 +21,7 @@ const AddNote = (props: Props) => {
     const [value, setValue] = useState<string | undefined>('');
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<string>('')
+    const [preview, setPreview] = useState<boolean>(false)
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
@@ -40,6 +44,10 @@ const AddNote = (props: Props) => {
 
     const successClbk = () => {
         navigate('/')
+    }
+
+    const togglePreview = (): void => {
+        setPreview(!preview)
     }
 
     const handleSubmit = (): void => {
@@ -65,39 +73,54 @@ const AddNote = (props: Props) => {
 
 
     return (
-        <Container className='my-4'>
+        <Layout>
             {error && (
                 <Alert variant='danger'>
                     {error}
                 </Alert>
             )}
 
-            <Form.Group>
-
-                <Form.Control
-                    type='text' placeholder='Enter Title'
-                    onChange={handleTitleChange}
-                />
-            </Form.Group>
-
-            <div className="my-1">
-                <MdEditor style={{ height: '500px' }}
-                    allowPasteImage
-                    value={getValue.text}
-                    view={{ menu: true, md: false, html: true }}
-                    renderHTML={text => (
-                        <ReactMarkdown
-                            children={text}
-                            rehypePlugins={[
-                                rehypeSanitize
-                            ]}
+            {!preview ? (
+                <div>
+                    <Form.Group>
+                        <Form.Control
+                            type='text' placeholder='Enter Title'
+                            onChange={handleTitleChange}
                         />
-                    )}
-                    onChange={handleChange} />
-            </div>
+                    </Form.Group>
+                    <div className="my-1">
+                        <MdEditor style={{ height: '500px' }}
+                            allowPasteImage
+                            value={getValue.text}
+                            view={{ menu: true, md: true, html: false }}
+                            renderHTML={text => (
+                                <ReactMarkdown
+                                    children={text}
+                                    rehypePlugins={[
+                                        rehypeSanitize
+                                    ]}
+                                />
+                            )}
+                            onChange={handleChange} />
+                    </div>
+                </div>
+            ) : (
+                <div>
+                    <h2>{title}</h2>
+                    <ReactMarkdown
+                        children={getValue.text}
+                        rehypePlugins={[
+                            rehypeSanitize
+                        ]}
+                    />
+                </div>
+            )}
 
-            <Button onClick={() => handleSubmit()} className='my-4'> Submit </Button>
-        </Container>
+
+
+            <Button onClick={() => togglePreview()} className='my-4 mx-2' variant='light'> {preview ? 'Editor' : 'Preview'}  </Button>
+            <Button onClick={() => handleSubmit()} className='my-4'> Save </Button>
+        </Layout>
     )
 }
 
