@@ -6,7 +6,8 @@ import postNote from './PostNote';
 import updateNote from './UpdateNote';
 import deleteNote from './DeleteNote';
 import getNoteHistory from './GetNoteHistory';
+import restoreNote from './RestoreNote';
 
 export default function* () {
-    yield all([fetchNotes(), fetchNote(), postNote(), updateNote(), deleteNote(),getNoteHistory()])
+    yield all([fetchNotes(), fetchNote(), postNote(), updateNote(), deleteNote(), getNoteHistory(), restoreNote()])
 };

@@ -118,13 +118,11 @@ export const restoreHistory = (req: Request, res: Response) => {
         const QUERY = 'SELECT * FROM notes_history WHERE id= ?'
         connection.query(QUERY, [historyId], (error, results) => {
             if (error) throw error;
-            console.log('results', results);
             if (results.length > 0) {
                 const { noteId, body, title } = results[0];
                 const QUERY = 'UPDATE notes SET title=?, body=? WHERE id= ?'
                 connection.query(QUERY, [title, body, noteId], (update_error, update_info) => {
                     if (update_error) throw update_error;
-                    console.log('update_info', update_info);
                     if (update_info.affectedRows > 0) {
                         return res.status(200).send({ message: "History Restored" })
                     }
@@ -143,7 +141,7 @@ export const restoreHistory = (req: Request, res: Response) => {
 export const getHistoryForNotes = (req: Request, res: Response) => {
     const { noteId } = req.params;
     connection.connect(() => {
-        const QUERY = 'SELECT * FROM notes_history WHERE noteId= ?'
+        const QUERY = 'SELECT * FROM notes_history WHERE noteId= ? ORDER BY createdOn DESC'
         connection.query(QUERY, [noteId], (error, results) => {
             if (error) throw error;
             if (results.length > 0) {

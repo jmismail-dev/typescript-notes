@@ -10,10 +10,14 @@ import moment from 'moment';
 // Store
 import { AppDispatch, RootState } from '../store';
 
+// Layouts 
 import Layout from '../includes/Layout'
 
 // UI
-import "./Note.scss"
+import "./Note.scss";
+
+// Types 
+import { Post } from '../types/post'
 
 type Props = {}
 
@@ -28,9 +32,8 @@ export default function Note({ }: Props) {
     const { title, body, createdOn }: any = useSelector<RootState>(store => store.notes.note);
     const history: any = useSelector<RootState>(store => store.notes.history);
 
-
-    const [tempTitle, setTempTitle] = useState<string>(title);
-    const [tempBody, setTempBody] = useState<string>('body');
+    const [tempTitle, setTempTitle] = useState<string>('');
+    const [tempBody, setTempBody] = useState<string>('');
 
     // Params
     const noteId = params.noteId;
@@ -48,20 +51,33 @@ export default function Note({ }: Props) {
         });
     }, [noteId]);
 
+    useEffect(() => {
+        setTempTitle(title);
+        setTempBody(body);
+    }, [title, body])
+
     const toggleHistory = () => {
         setShow(!show);
         setInProp(!setInProp)
     }
 
     const handleVersionClick = (versionId: number): void => {
-        const foundItem = history.find(o => o.id === versionId)
-        console.log('versionId', versionId, history, foundItem);
+        const foundItem = history.find((post: { id: number; }) => post.id === versionId);
+        setTempTitle(foundItem.title);
+        setTempBody(foundItem.body);
     }
 
-    const largeView: number = show ? 10 : 12;
-    const smallView: number = show ? 2 : 0;
+    const handleRestoreNote = (versionId: number): void => {
+        dispatch({
+            type: 'SET_RESTORE_NOTE_INIT',
+            payload: versionId
+        });
+    }
 
-    return !isError ? (
+    const largeView: number = show ? 8 : 12;
+    const smallView: number = show ? 4 : 6;
+
+    return (!isError) ? (
         <Layout>
             <Row>
                 <Col md={largeView} lg={largeView}>
@@ -84,7 +100,12 @@ export default function Note({ }: Props) {
                         <div>
                             <ListGroup style={{ cursor: 'pointer' }}>
                                 {history.map((history: any, index: number) => (
-                                    <ListGroupItem key={index} onClick={() => handleVersionClick(history.id)}>{history.id}</ListGroupItem>
+                                    <ListGroupItem key={index} onClick={() => handleVersionClick(history.id)}>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <p>{history.id}</p>
+                                            <Button onClick={() => handleRestoreNote(history.id)}> Restore </Button>
+                                        </div>
+                                    </ListGroupItem>
                                 ))}
                             </ListGroup>
                         </div>
