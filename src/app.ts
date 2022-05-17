@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors())
 app.use('/api', routes);
 
-console.log('Introducing Changes....')
+// console.log('Introducing Changes....')
 
 app.listen(port, () => {
     console.log(`App running on ${port}`)
