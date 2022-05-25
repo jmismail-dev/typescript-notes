@@ -14,5 +14,5 @@ app.use('/api', routes);
 console.log('Introducing Changes....')
 
 app.listen(port, () => {
-    console.log(`App running on ${port}`)
+    console.log(`App running on ${port}`);
 })
