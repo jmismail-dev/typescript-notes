@@ -24,8 +24,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'server-ip-address', variable: 'SERVER_IP_ADDRESS'),
-                    string(credentialsId: 'fedora-server-password', variable: 'SERVER_PASSWORD'),
+                    string(credentialsId: 'ts-notes-server-ip', variable: 'SERVER_IP_ADDRESS'),
+                    string(credentialsId: 'ts-notes-server-password', variable: 'SERVER_PASSWORD'),
                 ]) {
                     sh "cd ${WORKSPACE}"
                     sh 'sudo rsync -avr -e "ssh -l jmismail" --exclude="client" . jmismail@${SERVER_IP_ADDRESS}:/home/jmismail/ts-notes-app'
