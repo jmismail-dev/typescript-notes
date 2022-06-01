@@ -29,9 +29,12 @@ pipeline {
                 ]) {
                     sh "cd ${WORKSPACE}"
                     sh 'sudo rsync -avr -e "ssh -l jmismail" --exclude="client" . jmismail@${SERVER_IP_ADDRESS}:/home/jmismail/ts-notes-app'
-                    sh 'sudo rsync -avz --stats --rsync-path="echo ${SERVER_PASSWORD} | sudo -Sv && sudo rsync" ${WORKSPACE}/client/dist/ jmismail@${SERVER_IP_ADDRESS}:/var/www/ts-notes-app/'
+                    sh 'sudo rsync -avz --stats --rsync-path="echo ${SERVER_PASSWORD} | sudo -Sv && sudo rsync" ${WORKSPACE}/client/dist/ jmismail@${SERVER_IP_ADDRESS}:/usr/share/nginx/ts-notes-app'
                 }
             }
         }
     }
 }
+
+
+ /usr/share/nginx/ts-notes-app
