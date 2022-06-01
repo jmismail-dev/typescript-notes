@@ -35,6 +35,3 @@ pipeline {
         }
     }
 }
-
-
- /usr/share/nginx/ts-notes-app
