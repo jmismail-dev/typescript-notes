@@ -1,10 +1,10 @@
 version: "3.8"
-network_mode: host
 services:
   appserver:
     build: .
     ports:
       - "5000:7650"
+    network_mode: host
   nginx:
     restart: always
     build: .
