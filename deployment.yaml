@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    release: beta
+    type: poc
+  name: ts-notes-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: poc
+  template:
+    metadata:
+      labels:
+        release: beta
+        type: poc
+      name: ts-notes-pod
+    spec:
+      containers:
+        - image: "jmismail/ts-notes-app"
+          name: ts-notes-container
+          imagePullPolicy: Never # <-- herePull local containers
+          ports:
+            - containerPort: 7650
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
